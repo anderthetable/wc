@@ -1,0 +1,30 @@
+<script type="module">
+    import SignClient from "https://esm.sh/@walletconnect/sign-client"
+
+    const client = await SignClient.init({
+        projectId: "3fd234b8e2cd0e1da4bc08a0011bbf64",
+        metadata: {
+            name: "Mi Primera App BCH",
+            description: "Aprendiendo WalletConnect",
+            url: '',
+            icons: []
+        }
+    })
+
+    const optionalNamespaces = {
+        "bch": {
+            "chains": ["bch:mainnet"],
+            "methods": [
+                "bch_getAddresses",
+                "bch_signTransaction",
+                "bch_signMessage"
+            ],
+            "events": ["addressesChanged"]
+        }
+    }
+    const { uri, approval } = await client.connect({
+        optionalNamespaces
+    });
+    console.log(uri)
+    session = await approval()
+</script>
