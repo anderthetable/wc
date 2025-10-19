@@ -142,8 +142,8 @@
     client.on('session_delete', () => {
     console.log('session_delete');
         if(client.session.getAll().length === 0) {
+            session = address = undefined
             updateUI()
-            session, address = undefined
         }
     });
 
