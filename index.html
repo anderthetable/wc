@@ -69,8 +69,7 @@
     import Client from "https://esm.sh/@walletconnect/sign-client@2.18.1"
     import { WalletConnectModal } from "https://esm.sh/@walletconnect/modal@2.7.0";
 
-    let session, address = undefined
-
+    let session, address
     const modal = new WalletConnectModal( {projectId: '74499b23e341e0e34d6bd4e9679ae3f1'});
 
     const conectar = document.getElementById('conectar')
@@ -230,7 +229,7 @@
             reason: { code: 0, message: "" }
         });
 
-        session, address = undefined
+        session = address = undefined
         updateUI()
     }
 
