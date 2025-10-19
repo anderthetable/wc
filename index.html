@@ -69,7 +69,7 @@
     import Client from "https://esm.sh/@walletconnect/sign-client@2.18.1"
     import { WalletConnectModal } from "https://esm.sh/@walletconnect/modal@2.7.0";
 
-    let session = undefined
+    let session, address = undefined
 
     const modal = new WalletConnectModal( {projectId: '74499b23e341e0e34d6bd4e9679ae3f1'});
 
@@ -86,6 +86,21 @@
     const acceptBtn = document.getElementById('acceptBtn')
 
     const sessionsList = document.getElementById('sessionsList')
+
+    function updateUI(){
+        if(session){
+            wallet.textContent = address
+            wallet.style.display = "inline";
+            conectar.style.display = "none";
+            desconectar.style.display = "inline";
+            return
+        }
+
+        wallet.textContent = "";
+        wallet.style.display = "none";
+        conectar.style.display = "inline";
+        desconectar.style.display = "none";
+    }
 
     closeBtn.addEventListener('click', () => {
         sessionsModal.style.display = 'none';
@@ -127,11 +142,8 @@
 
     client.on('session_delete', () => {
     console.log('session_delete');
-        console.log(client.session.getAll())
         if(client.session.getAll().length === 0) {
-            conectar.style.display = 'inline' 
-            desconectar.style.display = 'none'
-            wallet.textContent = ''
+            updateUI()
         }
     });
 
@@ -175,11 +187,9 @@
                 }
             })
 
-            wallet.textContent = addresses[0]
+            address = addresses[0]
 
-            desconectar.style.display = 'inline'
-
-            conectar.style.display = 'none'
+            updateUI()
 
         }
     }
@@ -189,8 +199,6 @@
         const { uri, approval } = await client.connect({
             requiredNamespaces
         });
-
-        console.log(uri)
         
         modal.openModal({uri})
 
@@ -207,11 +215,9 @@
             }
         })
 
-        wallet.textContent = addresses[0]
+        address = addresses[0]
 
-        desconectar.style.display = 'inline'
-
-        conectar.style.display = 'none'
+        updateUI()
     }
 
     desconectar.onclick = async () => {
@@ -223,11 +229,7 @@
             reason: { code: 0, message: "" }
         });
 
-        conectar.style.display = 'inline'
-
-        wallet.textContent = ''
-
-        desconectar.style.display = 'none'
+        updateUI()
     }
 
 </script>
