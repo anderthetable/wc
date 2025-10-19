@@ -66,8 +66,8 @@
 </html>
 
 <script type="module">
-    import Client from "https://esm.sh/@walletconnect/sign-client"
-    import { WalletConnectModal } from "https://esm.sh/@walletconnect/modal";
+    import Client from "https://esm.sh/@walletconnect/sign-client@2.18.1"
+    import { WalletConnectModal } from "https://esm.sh/@walletconnect/modal@2.7.0";
 
     let session = undefined
 
@@ -105,7 +105,7 @@
 
     const requiredNamespaces = {
         "bch": {
-            "chains": ["bch:chipnet"],
+            "chains": ["bch:bchtest"],
             "methods": [
                 "bch_getAddresses",
                 "bch_signTransaction",
@@ -162,7 +162,7 @@
 
         const addresses = await client.request({
             topic: session.topic,
-            chainId: 'bch:bitcoincash',
+            chainId: 'bch:bchtest',
             request: {
                 method: 'bch_getAddresses',
                 params: {}
