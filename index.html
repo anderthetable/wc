@@ -144,6 +144,7 @@
     console.log('session_delete');
         if(client.session.getAll().length === 0) {
             updateUI()
+            session, address = undefined
         }
     });
 
@@ -230,6 +231,7 @@
         });
 
         updateUI()
+        session, address = undefined
     }
 
 </script>
