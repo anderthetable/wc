@@ -71,7 +71,7 @@
 
     let session = undefined
 
-    const modal = new WalletConnectModal( {projectId: '3fd234b8e2cd0e1da4bc08a0011bbf64'});
+    const modal = new WalletConnectModal( {projectId: '74499b23e341e0e34d6bd4e9679ae3f1'});
 
     const conectar = document.getElementById('conectar')
 
@@ -136,14 +136,52 @@
     });
 
     if (sessions.length != 0) {
-        
-        sessions.forEach(session => {
+
+        sessionsList.innerHTML = ""
+
+        sessions.forEach(s => {
+
             const li = document.createElement("li");
-            // li.textContent = session.namespaces.bch.accounts[0];
-            li.textContent = JSON.stringify(session)
+
+            li.textContent = s.namespaces.bch.accounts[0] + "-" + s.topic;
+
+            li.onclick = () => {
+
+                session = s
+
+                acceptBtn.disabled = false;
+            }
+
             sessionsList.appendChild(li);
-            sessionsModal.style.display = 'flex'
+            
         });
+
+        sessionsModal.style.display = 'flex'
+
+        acceptBtn.disabled = true
+
+        acceptBtn.onclick = async () => {
+
+            if (!session) return
+
+            sessionsModal.style.display = 'none';
+
+            const addresses = await client.request({
+                topic: session.topic,
+                chainId: 'bch:bchtest',
+                request: {
+                    method: 'bch_getAddresses',
+                    params: {}
+                }
+            })
+
+            wallet.textContent = addresses[0]
+
+            desconectar.style.display = 'inline'
+
+            conectar.style.display = 'none'
+
+        }
     }
 
     conectar.onclick = async () => {
